@@ -1,0 +1,6 @@
+# This file is managed by Chef, manual changes will be overridden
+
+# NEEDED TO ALLOW NAGIOS TO CHECK SERVICE STATUS
+nagios ALL=NOPASSWD: /usr/lib/nagios/plugins/check_init_service
+nagios ALL=NOPASSWD: /usr/lib/nagios/plugins/check_hpasm
+

@@ -1,0 +1,43 @@
+pid_file=/var/run/nrpe.pid
+server_port=5666
+nrpe_user=nagios
+nrpe_group=nagios
+dont_blame_nrpe=1
+debug=0
+command_timeout=60
+allowed_hosts=<%= @mon_host %>
+
+command[check_users]=<%= node['nagios']['plugin_dir'] %>/check_users -w 20 -c 30
+
+### GENERIC SERVICES ###
+command[check_init_service]=sudo <%= node['nagios']['plugin_dir'] %>/check_init_service $ARG1$
+command[check_services]=<%= node['nagios']['plugin_dir'] %>/check_services -p $ARG1$
+
+### MISC SYSTEM METRICS ###
+#command[check_users]=<%= node['nagios']['plugin_dir'] %>/check_users -w 5 -c 10
+command[check_users]=<%= node['nagios']['plugin_dir'] %>/check_users $ARG1$
+command[check_load]=<%= node['nagios']['plugin_dir'] %>/check_load $ARG1$
+command[check_swap]=<%= node['nagios']['plugin_dir'] %>/check_swap $ARG1$
+command[check_cpu_stats]=<%= node['nagios']['plugin_dir'] %>/check_cpu_stats.sh $ARG1$
+command[check_mem]=<%= node['nagios']['plugin_dir'] %>/custom_check_mem $ARG1$
+
+### YUM UPDATES ###
+command[check_yum]=<%= node['nagios']['plugin_dir'] %>/check_yum
+
+### DISK ###
+command[check_disk]=<%= node['nagios']['plugin_dir'] %>/check_disk $ARG1$
+command[check_ide_smart]=<%= node['nagios']['plugin_dir'] %>/check_ide_smart $ARG1$
+
+### PROCESSES ###
+command[check_all_procs]=<%= node['nagios']['plugin_dir'] %>/custom_check_procs
+command[check_procs]=<%= node['nagios']['plugin_dir'] %>/check_procs $ARG1$
+
+## OPEN FILES ###
+command[check_open_files]=<%= node['nagios']['plugin_dir'] %>/check_open_files.pl $ARG1$
+
+### NETWORK CONNECTIONS ###
+command[check_netstat]=<%= node['nagios']['plugin_dir'] %>/check_netstat.pl -p $ARG1$ $ARG2$
+
+# FAO BWB checks HP hardware
+command[check_hpasm]=sudo <%= node['nagios']['plugin_dir'] %>/check_hpasm -v
+
