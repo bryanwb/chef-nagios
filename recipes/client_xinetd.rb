@@ -51,7 +51,7 @@ remote_directory node['nagios']['plugin_dir'] do
 end
 
 template "#{node['nagios']['nrpe']['conf_dir']}/nrpe.cfg" do
-  source "nrpe_corp.cfg.erb"
+  source "nrpe_xinetd.cfg.erb"
   owner "root"
   group "root"
   mode "0644"
@@ -73,4 +73,11 @@ template "/etc/xinetd.d/nrpe" do
 	mode "0644"
 	variables( :mon_host => mon_host )
 	notifies :restart, "service[xinetd]"
+end
+
+# xinetd won't load nrpe on rhel6 w/out this
+execute "etc_services_entry" do
+	command	"echo 'nrpe            5666/tcp      # nrpe' >> /etc/services"
+	returns	0
+	not_if		"egrep '^nrpe.*$' /etc/services"
 end

@@ -10,7 +10,7 @@ allowed_hosts=<%= @mon_host %>
 command[check_users]=<%= node['nagios']['plugin_dir'] %>/check_users -w 20 -c 30
 
 ### GENERIC SERVICES ###
-command[check_init_service]=sudo <%= node['nagios']['plugin_dir'] %>/check_init_service $ARG1$
+command[check_init_service]=<%= node['nagios']['plugin_dir'] %>/check_init_service $ARG1$
 command[check_services]=<%= node['nagios']['plugin_dir'] %>/check_services -p $ARG1$
 
 ### MISC SYSTEM METRICS ###

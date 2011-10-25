@@ -37,12 +37,12 @@ pkgs.each do |pkg|
 end
 
 user node['nagios']['user'] do
-  system true
+	system true
 end
 
-group node['nagios']['group'] do
-  members [ node['nagios']['user'] ]
-end
+#group node['nagios']['group'] do
+#  members [ node['nagios']['user'] ]
+#end
 
 plugins_version = node['nagios']['plugins']['version']
 
@@ -104,3 +104,4 @@ directory node['nagios']['nrpe']['conf_dir'] do
   group "root"
   mode "0755"
 end
+
